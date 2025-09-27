@@ -14,37 +14,32 @@
  * }
  */
 class Solution {
-
-    public void traverse(TreeNode root) {
-
-        if (root == null)
-            return;
-
-        if (root.left != null && root.right != null) {
-
-            TreeNode temp = root.right;
-            root.right = root.left;
-            root.left = null;
-
-            TreeNode curr = root.right;
-            while (curr.right != null)
-                curr = curr.right;
-            curr.right = temp;
-
-        }
-
-        if (root.left != null && root.right == null) {
-            root.right = root.left;
-            root.left = null;
-        }
-
-        traverse(root.right);
-
-    }
-
     public void flatten(TreeNode root) {
 
-        traverse(root);
+        if (root == null || (root.left == null && root.right == null))
+            return;
+
+        TreeNode curr = root;
+
+        while (curr != null) {
+
+            if (curr.left != null) {
+
+                TreeNode pred = curr.left;
+
+                while (pred.right != null)
+                    pred = pred.right;
+
+                pred.right = curr.right;
+
+                curr.right = curr.left;
+
+                curr.left = null;
+            }
+
+            curr = curr.right;
+
+        }
 
     }
 }
